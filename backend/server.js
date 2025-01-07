@@ -1,32 +1,32 @@
-// Required packages
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 
-// App initialization
 const app = express();
 app.use(express.json());
 
-// Database connection
-mongoose.connect('mongodb://localhost:27017/cve_DB', {
+const mongoURI = 'mongodb+srv://125003415:x6Px9mElONxdtlr6@cluster.mnoqh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster';
+
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// CVE Schema and Model
-const cveSchema = new mongoose.Schema({
-  cveId: String,
-  publishedDate: Date,
-  lastModifiedDate: Date,
-  description: String,
-  baseScore: Number,
-  year: Number,
-}, { timestamps: true });
+const cveSchema = new mongoose.Schema(
+  {
+    cveId: String,
+    publishedDate: Date,
+    lastModifiedDate: Date,
+    description: String,
+    baseScore: Number,
+    year: Number,
+  },
+  { timestamps: true }
+);
 const CVE = mongoose.model('CVE', cveSchema);
 
-// Helper function to fetch data from NVD API
 async function fetchCVEData(startIndex = 0, resultsPerPage = 100) {
   try {
     const { data } = await axios.get('https://services.nvd.nist.gov/rest/json/cves/2.0', {
@@ -42,9 +42,6 @@ async function fetchCVEData(startIndex = 0, resultsPerPage = 100) {
   }
 }
 
-// API Routes
-
-// Route 1: Fetch all CVEs with filters and pagination
 app.get('/cves/list', async (req, res) => {
   try {
     const {
@@ -80,7 +77,6 @@ app.get('/cves/list', async (req, res) => {
   }
 });
 
-// Route 2: Fetch single CVE details
 app.get('/cves/:cveId', async (req, res) => {
   try {
     const { cveId } = req.params;
@@ -93,7 +89,6 @@ app.get('/cves/:cveId', async (req, res) => {
   }
 });
 
-// Start the server
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

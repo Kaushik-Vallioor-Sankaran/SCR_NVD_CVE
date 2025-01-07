@@ -5,8 +5,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const mongoURI = 'mongodb+srv://125003415:x6Px9mElONxdtlr6@cluster.mongodb.net/<dbname>?retryWrites=true&w=majority&tls=true';
-
+const mongoURI = 'mongodb+srv://125003415:x6Px9mElONxdtlr6@cluster.mongodb.net/Clusters?retryWrites=true&w=majority&tls=true';
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

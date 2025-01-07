@@ -5,7 +5,8 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const mongoURI = 'mongodb+srv://125003415:x6Px9mElONxdtlr6@cluster.mongodb.net/Clusters?retryWrites=true&w=majority&tls=true';
+const mongoURI = 'mongodb://125003415:x6Px9mElONxdtlr6@cluster-shard-00-00.mongodb.net:27017,cluster-shard-00-01.mongodb.net:27017,cluster-shard-00-02.mongodb.net:27017/Cluster?ssl=true&replicaSet=atlas-xxxxxx-shard-0&authSource=admin&retryWrites=true&w=majority';
+
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
